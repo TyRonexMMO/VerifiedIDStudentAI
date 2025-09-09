@@ -150,6 +150,15 @@ project-root/
 
 ## ⚠️ **Common Issues & Solutions**
 
+### Issue: "Could not read /vercel/path0/api/package.json: Expected property name or '}' in JSON at position 4"
+
+**Solution**: This error occurs when there's invalid JSON syntax in the API package.json file.
+
+**What was fixed**:
+- Removed unnecessary `api/package.json` file (not required for Vercel serverless functions)
+- Updated `vercel.json` to build specific file (`api/index.js`) instead of wildcard pattern
+- Ensured all JSON files have proper syntax without escaped quotes
+
 ### Issue: "The `functions` property cannot be used in conjunction with the `builds` property"
 
 **Solution**: This error occurs when mixing old and new Vercel configuration syntax. The project now uses the `builds` and `routes` approach which is compatible with all Vercel plans.

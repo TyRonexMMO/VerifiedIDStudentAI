@@ -148,7 +148,19 @@ project-root/
 
 ## 🛠️ Troubleshooting
 
-### Common Issues:
+## ⚠️ **Common Issues & Solutions**
+
+### Issue: "The `functions` property cannot be used in conjunction with the `builds` property"
+
+**Solution**: This error occurs when mixing old and new Vercel configuration syntax. The project now uses the `builds` and `routes` approach which is compatible with all Vercel plans.
+
+**What was fixed**:
+- Removed conflicting `functions` property
+- Used `builds` with `@vercel/static-build` for frontend
+- Used `builds` with `@vercel/node` for API functions
+- Configured proper routing in `routes` section
+
+### Other Common Issues:
 
 1. **Build Failures**:
    ```bash

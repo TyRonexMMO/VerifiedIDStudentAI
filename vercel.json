@@ -9,38 +9,30 @@
       }
     },
     {
-      "src": "server/server.js",
+      "src": "api/*.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/server/server.js"
+      "dest": "/api/index.js"
     },
     {
       "src": "/api-proxy/(.*)",
-      "dest": "/server/server.js"
-    },
-    {
-      "src": "/public/(.*)",
-      "dest": "/server/server.js"
+      "dest": "/api/index.js"
     },
     {
       "src": "/service-worker.js",
-      "dest": "/server/server.js"
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/public/(.*)",
+      "dest": "/api/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/server/server.js"
+      "dest": "/api/index.js"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "functions": {
-    "server/server.js": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }

@@ -1,38 +1,28 @@
 {
   "version": 2,
-  "builds": [
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "api/index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js"
+      "source": "/api-proxy/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/api-proxy/(.*)",
-      "dest": "/api/index.js"
+      "source": "/service-worker.js",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/service-worker.js",
-      "dest": "/api/index.js"
+      "source": "/public/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/public/(.*)",
-      "dest": "/api/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.js"
+      "source": "/((?!api|_next|_static|favicon.ico).*)",
+      "destination": "/api/index.js"
     }
   ]
 }

@@ -152,12 +152,39 @@ project-root/
 
 ### Issue: "Could not read /vercel/path0/api/package.json: Expected property name or '}' in JSON at position 4"
 
-**Solution**: This error occurs when there's invalid JSON syntax in the API package.json file.
+**Solution**: This error occurs when Vercel tries to read a non-existent or malformed package.json in the API directory.
 
 **What was fixed**:
 - Removed unnecessary `api/package.json` file (not required for Vercel serverless functions)
-- Updated `vercel.json` to build specific file (`api/index.js`) instead of wildcard pattern
-- Ensured all JSON files have proper syntax without escaped quotes
+- Cleaned up empty directories in `/api` folder
+- Updated `vercel.json` to use modern configuration without explicit builds
+- Used `rewrites` instead of `routes` for better compatibility
+
+**New Configuration Approach**:
+```json
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.js" },
+    { "source": "/api-proxy/(.*)", "destination": "/api/index.js" },
+    { "source": "/service-worker.js", "destination": "/api/index.js" },
+    { "source": "/public/(.*)", "destination": "/api/index.js" },
+    { "source": "/((?!api|_next|_static|favicon.ico).*)", "destination": "/api/index.js" }
+  ]
+}
+```
+
+### Issue: Chunk Size Warning "Consider adjusting chunk size limit"
+
+**Solution**: Updated Vite configuration to optimize bundle splitting and increase warning threshold.
+
+**What was optimized**:
+- Increased `chunkSizeWarningLimit` from 500kb to 1000kb
+- Added manual chunk splitting for vendor libraries (React, Gemini SDK)
+- Improved loading performance with separate chunks
 
 ### Issue: "The `functions` property cannot be used in conjunction with the `builds` property"
 

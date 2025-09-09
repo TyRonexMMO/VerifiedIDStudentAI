@@ -12,6 +12,17 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      build: {
+        chunkSizeWarningLimit: 1000, // Increase from default 500kb to 1000kb
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              vendor: ['react', 'react-dom'],
+              gemini: ['@google/genai']
+            }
+          }
+        }
       }
     };
 });

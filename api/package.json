@@ -1,5 +1,8 @@
 {
-  \"name\": \"api\",
-  \"version\": \"1.0.0\",
-  \"main\": \"index.js\"
+  "name": "api-functions",
+  "version": "1.0.0",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

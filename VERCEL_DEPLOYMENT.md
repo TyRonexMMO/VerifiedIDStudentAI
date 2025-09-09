@@ -152,21 +152,23 @@ project-root/
 
 ### Issue: "Could not read /vercel/path0/api/package.json: Expected property name or '}' in JSON at position 4"
 
-**Solution**: This error occurs when Vercel tries to read a non-existent or malformed package.json in the API directory.
+**Solution**: This error occurs when Vercel expects a package.json in the API directory but can't read it properly.
 
-**What was fixed**:
-- Removed unnecessary `api/package.json` file (not required for Vercel serverless functions)
-- Cleaned up empty directories in `/api` folder
-- Updated `vercel.json` to use modern configuration without explicit builds
-- Used `rewrites` instead of `routes` for better compatibility
+**Final Fix Applied**:
+- Created a minimal, valid `api/package.json` file with proper JSON syntax
+- Updated `vercel.json` to use the `functions` configuration instead of `builds`
+- Specified explicit runtime and timeout settings
 
-**New Configuration Approach**:
+**Working Configuration**:
 ```json
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "installCommand": "npm install",
+  "functions": {
+    "api/index.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index.js" },
     { "source": "/api-proxy/(.*)", "destination": "/api/index.js" },
@@ -174,6 +176,18 @@ project-root/
     { "source": "/public/(.*)", "destination": "/api/index.js" },
     { "source": "/((?!api|_next|_static|favicon.ico).*)", "destination": "/api/index.js" }
   ]
+}
+```
+
+**API Package.json**:
+```json
+{
+  "name": "api-functions",
+  "version": "1.0.0",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
 ```
 

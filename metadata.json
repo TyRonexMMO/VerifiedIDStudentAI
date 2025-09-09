@@ -1,0 +1,6 @@
+{
+  "name": "Tuition Receipt Generator Premium",
+  "description": "A web application to generate professional tuition fee receipts for Kalinga Institute of Industrial Technology (KIIT). Users can customize school, student, and payment details, auto-generate random information, and download the final receipt as a PNG image.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
